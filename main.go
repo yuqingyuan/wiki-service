@@ -25,7 +25,7 @@ func main() {
 				"status": http.StatusOK,
 				"msg": "",
 				"content": gin.H{
-					"date": string(month) + "-" + string(day),
+					"date": strconv.Itoa(month) + "-" + strconv.Itoa(day),
 					"events": rsp,
 				},
 			})
