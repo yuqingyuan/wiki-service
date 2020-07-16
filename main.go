@@ -14,7 +14,7 @@ func main() {
 		size, _ := strconv.Atoi(c.DefaultQuery("pageSize", "10"))
 		month, _ := strconv.Atoi(c.DefaultQuery("month", "1"))
 		day, _ := strconv.Atoi(c.DefaultQuery("day", "1"))
-		rsp, err := model.FetchEvents(month, day, int(index), int(size))
+		rsp, err := model.FetchEvents(month, day, index, size)
 		if err != nil {
 			c.JSON(http.StatusInternalServerError, gin.H{
 				"status": http.StatusInternalServerError,
@@ -24,7 +24,10 @@ func main() {
 			c.JSON(http.StatusOK, gin.H{
 				"status": http.StatusOK,
 				"msg": "",
-				"content": rsp,
+				"content": gin.H{
+					"date": string(month) + "-" + string(day),
+					"events": rsp,
+				},
 			})
 		}
 	})

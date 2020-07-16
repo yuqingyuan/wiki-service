@@ -45,7 +45,6 @@ func FetchEvents(month int, day int, offset int, limit int) ([]map[string]interf
 		jsonMap["id"] = event.ID
 		jsonMap["type"] = event.Class
 		jsonMap["year"] = event.Year
-		jsonMap["date"] = event.Date
 		jsonMap["detail"] = event.Detail
 		jsonMap["links"] = event.Links
 		jsonMap["images"] = strings.Split(event.ImgLinks, ",")
