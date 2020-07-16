@@ -9,12 +9,14 @@ import (
 
 func main() {
 	router := gin.Default()
+
 	router.GET("/ht", func(c *gin.Context) {
-		index, _ := strconv.Atoi(c.Query("pageIndex"))
-		size, _ := strconv.Atoi(c.DefaultQuery("pageSize", "10"))
+		eventType, _ := strconv.Atoi(c.DefaultQuery("type", "-1"))
 		month, _ := strconv.Atoi(c.DefaultQuery("month", "1"))
 		day, _ := strconv.Atoi(c.DefaultQuery("day", "1"))
-		rsp, err := model.FetchEvents(month, day, index, size)
+		index, _ := strconv.Atoi(c.Query("pageIndex"))
+		size, _ := strconv.Atoi(c.DefaultQuery("pageSize", "10"))
+		rsp, err := model.FetchEvents(eventType, month, day, index, size)
 		if err != nil {
 			c.JSON(http.StatusInternalServerError, gin.H{
 				"status": http.StatusInternalServerError,
@@ -31,5 +33,6 @@ func main() {
 			})
 		}
 	})
+
 	router.Run()
 }

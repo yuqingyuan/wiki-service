@@ -11,7 +11,7 @@ var (
 	database *gorm.DB
 
 	username = "root"
-	password = "root"
+	password = "bsb@1993BSB"
 	dbName   = "wiki_crawler"
 )
 
@@ -27,8 +27,11 @@ func Close() {
 	}
 }
 
-func FetchEvents(month int, day int, offset int, limit int) ([]map[string]interface{}, error) {
+func FetchEvents(eventType int, month int, day int, offset int, limit int) ([]map[string]interface{}, error) {
 	query := fmt.Sprintf("date = '%d-%d'", month, day)
+	if eventType != -1 {
+		query = query + fmt.Sprintf("and class = %d", eventType)
+	}
 	rows, err := database.Table("events").Offset(offset).Limit(limit).Where(query).Rows()
 	if err != nil {
 		return nil, err
