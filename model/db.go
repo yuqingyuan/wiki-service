@@ -50,9 +50,21 @@ func FetchEvents(eventType int, month int, day int, offset int, limit int) ([]ma
 		jsonMap["year"] = event.Year
 		jsonMap["detail"] = event.Detail
 		jsonMap["links"] = event.Links
-		jsonMap["images"] = strings.Split(event.ImgLinks, ",")
+		jsonMap["images"] = removeDuplicateElement(strings.Split(event.ImgLinks, ","))
 
 		events = append(events, jsonMap)
 	}
 	return events, nil
+}
+
+func removeDuplicateElement(languages []string) []string {
+	result := make([]string, 0, len(languages))
+	temp := map[string]struct{}{}
+	for _, item := range languages {
+		if _, ok := temp[item]; !ok {
+			temp[item] = struct{}{}
+			result = append(result, item)
+		}
+	}
+	return result
 }
